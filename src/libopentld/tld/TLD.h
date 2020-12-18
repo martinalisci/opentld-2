@@ -45,6 +45,8 @@ class Metrics
         std::vector<int> nmatches; //matches for frame t
         std::vector<float> distances; //sum of distances for frame t
         std::vector<cv::Rect> realPositions;
+        std::vector<cv::Rect> hypotheticalPositions;
+        std::vector<float> ious;
         int count=0;
         //correspondence
         double threshold =  500;
@@ -57,7 +59,7 @@ class Metrics
     void processFrame(cv::Rect hypothesis);
     float mota();
     float motp();
-
+    void save();
 
 
 };

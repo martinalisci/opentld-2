@@ -288,6 +288,7 @@ void Main::doWork()
 
     float acc = tld->metric.mota();
     float prec = tld->metric.motp();
+    tld->metric.save();
     std::cout<<"\nmota : "<< acc << std::endl;
     std::cout<<"motp : "<< prec << std::endl;
 

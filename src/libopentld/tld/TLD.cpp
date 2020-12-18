@@ -121,9 +121,10 @@ void Metrics::processFrame(cv::Rect hypothesis)
 {
 
     float overlap = 0.0;
-
+    hypotheticalPositions.push_back(hypothesis);
     overlap = iou(realPositions[count],hypothesis);
     std::cout<<"overlap : "<<overlap<<std::endl;
+    ious.push_back(overlap);
     if (overlap<0.0010)
     {
         mismatches[count] = 1;
@@ -178,6 +179,27 @@ float Metrics::mota()
     std::cout<<sumMisses<<std::endl;
     sum = sumMismatches+sumMisses;
     return (1-((sum)/double(count)));
+}
+
+void Metrics::save()
+{
+    int i = 0;
+    std::ofstream myfile;
+    myfile.open ("./../../opentld-2/results.csv");
+    myfile << "Tracker box, real position, iou, mismatch\n";
+    for (i=0; i<count; i++)
+    {
+        myfile << hypotheticalPositions[i].x <<"-"<< hypotheticalPositions[i].y<<"-"<<  hypotheticalPositions[i].width<<"-"<< hypotheticalPositions[i].height;
+        myfile << ",";
+        myfile << realPositions[i].x <<"-"<< realPositions[i].y<<"-"<<  realPositions[i].width<<"-"<< realPositions[i].height;
+        myfile<<",";
+        myfile<<ious[i];
+        myfile<<",";
+        myfile<<mismatches[i]<<"\n";
+        
+    }
+    
+    myfile.close();
 }
 
 //********************************************KalmanTracker
